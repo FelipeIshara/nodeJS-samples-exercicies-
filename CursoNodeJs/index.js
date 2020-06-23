@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
 const handlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 const Post = require('./models/Post.js')
@@ -16,12 +16,20 @@ app.use(bodyParser.json())
 //rotas
 app.get("/", (req, res) => {
     Post.findAll().then(function(posts){
-        console.log(posts['users'])
-    })})
+        res.render('index', {posts: posts})
+        console.log(posts)
+    })
+})
     //.then(function(posts){
       //  res.render('index', {nome: "victor"})
     
 
+app.get('/delete/:id',(req, res) => {
+    Post.destroy({where: {'id': req.params.id}}).then(function(){
+        res.send("Mensagem deletada")
+    })/*.catch((erro)=>{
+        res.send("Não foi possível deletar")*/
+    })
 
 
 
@@ -30,8 +38,8 @@ app.get("/cad", (req, res) => {
 })
 app.post("/add", (req, res) => {
     Post.create({
-        título: req.body.titulo,
-        conteúdo: req.body.conteudo 
+        titulo: req.body.titulo,
+        conteudo: req.body.conteudo 
     }).then(() => res.redirect('/')
     ).catch((erro) => res.send("Houve um erro: " + erro))
 })
