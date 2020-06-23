@@ -7,8 +7,9 @@
     <h1>{{dataValues.titulo}}</h1>
 
     <p>{{dataValues.conteudo}}</p>
-
-    <a href="/delete/{{dataValues.id}}"><button>DELETAR</button></a>
+    <form action="/delete/{{dataValues.id}}" method="POST">
+    <button type="submit">DELETAR</button>
+    </form>
     <hr>
 
 {{/each}}

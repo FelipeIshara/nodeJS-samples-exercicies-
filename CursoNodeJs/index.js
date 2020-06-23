@@ -24,12 +24,15 @@ app.get("/", (req, res) => {
       //  res.render('index', {nome: "victor"})
     
 
-app.get('/delete/:id',(req, res) => {
+app.post('/delete/:id',(req, res) => {
     Post.destroy({where: {'id': req.params.id}}).then(function(){
-        res.send("Mensagem deletada")
-    })/*.catch((erro)=>{
-        res.send("Não foi possível deletar")*/
+        res.redirect("/")
+    }).catch((erro)=>{
+        res.send("Não foi possível deletar, vc será redirecionado")
+
+        setTimeout(res.redirect("/"), 3000);
     })
+})
 
 
 
